@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroCode – Cadastro de Etapas</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="" alt="AeroCode">
+        <div class="brand-name">AERO<span style="color:var(--accent2)">CODE</span></div>
+        <div class="brand-sub">AVIAÇÃO E TECNOLOGIA AVANÇADA</div>
+      </div>
+      <a href="/dashboard" class="nav-btn">AERONAVE</a>
+      <a href="/pecas" class="nav-btn">PEÇAS</a>
+      <a href="/etapas" class="nav-btn active">ETAPA</a>
+      <a href="/testes" class="nav-btn">TESTES</a>
+      <div class="sidebar-user">
+        <div class="dot"></div>
+        USUÁRIO_X
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1>CADASTRO DE ETAPAS</h1>
+        <p>Cadastre e gerencie as etapas da produção</p>
+      </div>
+      <div class="page-body">
+        <div class="form-card">
+          <h2>CADASTRO DE ETAPAS</h2>
+
+          <div class="form-group">
+            <label>NOME DA ETAPA</label>
+            <input type="text" id="nomeEtapa" placeholder="">
+          </div>
+
+          <div class="form-group">
+            <label>ESCOLHA A QUAL AERONAVE A ETAPA PERTENCE</label>
+            <div class="select-wrapper">
+              <select id="aeronaveId">
+                <option value="">Selecione...</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>STATUS DA ETAPA</label>
+            <div class="select-wrapper">
+              <select id="status">
+                <option value="EM ANDAMENTO">EM ANDAMENTO</option>
+                <option value="CONCLUÍDA">CONCLUÍDA</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn-primary" onclick="cadastrarEtapa()">CADASTRAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/js/shared.js"></script>
+  <script>
+    async function loadAeronaves() {
+      const res = await fetch('/api/aeronaves');
+      const aeronaves = await res.json();
+      const sel = document.getElementById('aeronaveId');
+      aeronaves.forEach(a => {
+        const opt = document.createElement('option');
+        opt.value = a.id;
+        opt.textContent = a.modelo;
+        sel.appendChild(opt);
+      });
+    }
+
+    async function cadastrarEtapa() {
+      const nome = document.getElementById('nomeEtapa').value.trim();
+      const aeronaveId = document.getElementById('aeronaveId').value;
+      const status = document.getElementById('status').value;
+
+      if (!nome || !aeronaveId) {
+        showToast('Preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      const res = await fetch('/api/etapas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, aeronaveId, status })
+      });
+
+      if (res.ok) {
+        showToast('Etapa cadastrada com sucesso!');
+        document.getElementById('nomeEtapa').value = '';
+        document.getElementById('aeronaveId').value = '';
+      } else {
+        showToast('Erro ao cadastrar etapa.');
+      }
+    }
+
+    loadAeronaves();
+  </script>
+</body>
+</html>

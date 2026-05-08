@@ -1,0 +1,470 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #c8cdd4;
+  --sidebar-bg: #b0b8c1;
+  --card-bg: #8a9299;
+  --card-dark: #7a8590;
+  --header-bg: #f0f2f4;
+  --input-bg: #ffffff;
+  --btn-bg: #d0d5da;
+  --btn-hover: #bcc2c8;
+  --text-dark: #1a1a2e;
+  --text-mid: #2c3e50;
+  --text-light: #ffffff;
+  --accent: #0077aa;
+  --accent2: #00aacc;
+  --border: #9aa5ae;
+  --shadow: rgba(0,0,0,0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Exo 2', sans-serif;
+  background: var(--bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+h1, h2, h3, .label {
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* ===== LAYOUT ===== */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 150px;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 10px;
+  gap: 12px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-logo {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.sidebar-logo img {
+  width: 90px;
+}
+
+.sidebar-logo .brand-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 2px;
+}
+
+.sidebar-logo .brand-sub {
+  font-size: 7px;
+  color: var(--text-mid);
+  letter-spacing: 1px;
+}
+
+.nav-btn {
+  width: 100%;
+  padding: 14px 8px;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 4px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-dark);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.nav-btn:hover { background: var(--card-dark); }
+.nav-btn.active { background: var(--card-dark); box-shadow: inset 2px 0 0 var(--accent); }
+
+.sidebar-user {
+  margin-top: auto;
+  font-size: 11px;
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sidebar-user .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  background: var(--header-bg);
+  padding: 20px 30px;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 1px;
+}
+
+.page-header p {
+  font-size: 11px;
+  color: #666;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.page-body {
+  flex: 1;
+  padding: 24px 30px;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+  background: var(--card-bg);
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-bar input {
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-dark);
+  width: 100%;
+}
+
+.search-bar input::placeholder { color: var(--text-mid); }
+
+/* ===== CARDS GRID ===== */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.aeronave-card {
+  background: var(--card-bg);
+  border-radius: 6px;
+  padding: 18px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  min-height: 120px;
+}
+
+.aeronave-card:hover {
+  background: var(--card-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+.aeronave-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+}
+
+.aeronave-card .info-row {
+  font-size: 11px;
+  color: var(--text-mid);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.aeronave-card .info-row span {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* ===== FORM CARD ===== */
+.form-card {
+  background: var(--card-bg);
+  border-radius: 6px;
+  padding: 30px 36px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.form-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 28px;
+  color: var(--text-dark);
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--input-bg);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 13px;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--accent);
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: '↓';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-mid);
+  font-size: 14px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: var(--btn-hover); }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-box {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 28px 28px 22px;
+  width: 340px;
+  max-width: 92vw;
+  position: relative;
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-box h2 {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 2px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.modal-box .modal-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-mid);
+  margin-bottom: 8px;
+}
+
+.modal-box .modal-value {
+  font-size: 12px;
+  color: var(--text-mid);
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+  word-break: break-all;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 10px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-actions button:hover { background: var(--btn-hover); }
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-mid);
+  line-height: 1;
+}
+
+/* ===== LOGIN ===== */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  gap: 28px;
+}
+
+.login-logo {
+  text-align: center;
+}
+
+.login-logo img { width: 100px; }
+.login-logo .brand { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 4px; }
+.login-logo .sub { font-size: 9px; letter-spacing: 2px; color: #666; }
+
+.login-card {
+  background: var(--card-bg);
+  border-radius: 6px;
+  padding: 36px 48px 40px;
+  width: 320px;
+}
+
+.login-card .form-group label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--text-mid);
+}
+
+.btn-login {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin-top: 28px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-login:hover { background: var(--btn-hover); }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--card-dark);
+  color: var(--text-dark);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 12px 20px;
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+  box-shadow: 0 4px 14px var(--shadow);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}

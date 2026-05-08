@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroCode – Cadastro de Peças</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="" alt="AeroCode">
+        <div class="brand-name">AERO<span style="color:var(--accent2)">CODE</span></div>
+        <div class="brand-sub">AVIAÇÃO E TECNOLOGIA AVANÇADA</div>
+      </div>
+      <a href="/dashboard" class="nav-btn">AERONAVE</a>
+      <a href="/pecas" class="nav-btn active">PEÇAS</a>
+      <a href="/etapas" class="nav-btn">ETAPA</a>
+      <a href="/testes" class="nav-btn">TESTES</a>
+      <div class="sidebar-user">
+        <div class="dot"></div>
+        USUÁRIO_X
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1>CADASTRO DE PEÇAS</h1>
+        <p>Cadastre e gerencie as peças cadastradas no sistema</p>
+      </div>
+      <div class="page-body">
+        <div class="form-card">
+          <h2>CADASTRO DE PEÇAS</h2>
+
+          <div class="form-group">
+            <label>NOME DA PEÇA</label>
+            <input type="text" id="nomePeca" placeholder="">
+          </div>
+
+          <div class="form-group">
+            <label>FABRICANTE</label>
+            <input type="text" id="fabricante" placeholder="">
+          </div>
+
+          <div class="form-group">
+            <label>STATUS DA PEÇA</label>
+            <div class="select-wrapper">
+              <select id="status">
+                <option value="EM PRODUÇÃO">EM PRODUÇÃO</option>
+                <option value="CONCLUÍDA">CONCLUÍDA</option>
+                <option value="AGUARDANDO">AGUARDANDO</option>
+                <option value="CANCELADA">CANCELADA</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn-primary" onclick="cadastrarPeca()">CADASTRAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/js/shared.js"></script>
+  <script>
+    async function cadastrarPeca() {
+      const nome = document.getElementById('nomePeca').value.trim();
+      const fabricante = document.getElementById('fabricante').value.trim();
+      const status = document.getElementById('status').value;
+
+      if (!nome || !fabricante) {
+        showToast('Preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      const res = await fetch('/api/pecas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, fabricante, status })
+      });
+
+      if (res.ok) {
+        showToast('Peça cadastrada com sucesso!');
+        document.getElementById('nomePeca').value = '';
+        document.getElementById('fabricante').value = '';
+        document.getElementById('status').value = 'EM PRODUÇÃO';
+      } else {
+        showToast('Erro ao cadastrar peça.');
+      }
+    }
+  </script>
+</body>
+</html>

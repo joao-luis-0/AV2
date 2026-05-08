@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroCode – Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="" alt="AeroCode">
+        <div class="brand-name">AERO<span style="color:var(--accent2)">CODE</span></div>
+        <div class="brand-sub">AVIAÇÃO E TECNOLOGIA AVANÇADA</div>
+      </div>
+      <a href="/dashboard" class="nav-btn active">AERONAVE</a>
+      <a href="/pecas" class="nav-btn">PEÇAS</a>
+      <a href="/etapas" class="nav-btn">ETAPA</a>
+      <a href="/testes" class="nav-btn">TESTES</a>
+      <div class="sidebar-user">
+        <div class="dot"></div>
+        USUÁRIO_X
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1>SISTEMA DE GERENCIAMENTO E CONTROLE DE PRODUÇÃO DE AERONAVES</h1>
+      </div>
+      <div class="page-body">
+        <!-- Search -->
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="PESQUISAR AERONAVE" oninput="filterCards()">
+        </div>
+
+        <!-- Cards grid -->
+        <div class="cards-grid" id="cardsGrid">
+          <!-- Cards injected by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal – Tela 3 -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h2 id="modalTitle">KC-390</h2>
+      <div class="modal-label">MODELO:</div>
+      <div class="modal-value" id="modalModelo">–</div>
+      <div class="modal-value" id="modalFabricante">–</div>
+      <div class="modal-value" id="modalAno">–</div>
+      <div class="modal-actions">
+        <button onclick="gerarRelatorio()">GERAR RELATÓRIO</button>
+        <button onclick="openOpcoes()">+OPÇÕES</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/js/shared.js"></script>
+  <script>
+    let aeronaves = [];
+
+    async function loadAeronaves(q = '') {
+      const url = q ? `/api/aeronaves?q=${encodeURIComponent(q)}` : '/api/aeronaves';
+      const res = await fetch(url);
+      aeronaves = await res.json();
+      renderCards(aeronaves);
+    }
+
+    function renderCards(list) {
+      const grid = document.getElementById('cardsGrid');
+      grid.innerHTML = '';
+
+      // Always render 3 slots minimum
+      const slots = Math.max(list.length, 3);
+      for (let i = 0; i < slots; i++) {
+        const a = list[i];
+        const card = document.createElement('div');
+        card.className = 'aeronave-card';
+
+        if (a) {
+          card.innerHTML = `
+            <h3>${a.nome}</h3>
+            <div class="info-row">MODELO: <span>${a.modelo}</span></div>
+            <div class="info-row">FABRICANTE: <span>${a.fabricante}</span></div>
+            <div class="info-row">ANO DE FABRICAÇÃO: <span>${a.ano}</span></div>
+          `;
+          card.onclick = () => openModal(a);
+        }
+
+        grid.appendChild(card);
+      }
+    }
+
+    function filterCards() {
+      const q = document.getElementById('searchInput').value;
+      loadAeronaves(q);
+    }
+
+    function openModal(aeronave) {
+      document.getElementById('modalTitle').textContent = aeronave.modelo;
+      document.getElementById('modalModelo').textContent = `MODELO: ${aeronave.modelo}`;
+      document.getElementById('modalFabricante').textContent = `FABRICANTE: ${aeronave.fabricante}`;
+      document.getElementById('modalAno').textContent = `ANO DE FABRICAÇÃO: ${aeronave.ano}`;
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    function gerarRelatorio() {
+      const modelo = document.getElementById('modalTitle').textContent;
+      showToast(`Relatório de ${modelo} gerado!`);
+      closeModal();
+    }
+
+    function openOpcoes() {
+      showToast('Opções em desenvolvimento.');
+    }
+
+    // Keyboard ESC to close
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    loadAeronaves();
+  </script>
+</body>
+</html>
